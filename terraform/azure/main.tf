@@ -141,7 +141,7 @@ resource "azurerm_virtual_machine" "vm01" {
 #!/bin/bash
 sudo apt update
 sudo apt install apache2 -y
-echo "staticsite-lb-multi-cloud - Azure - vm01" > /var/www/html/index.html
+echo "staticsite-lb-multi-cloud - Azure - instance01" > /var/www/html/index.html
 CUSTOM_DATA
     }
     os_profile_linux_config {
@@ -178,7 +178,7 @@ resource "azurerm_virtual_machine" "vm02" {
 #!/bin/bash
 sudo apt update
 sudo apt install apache2 -y
-echo "staticsite-lb-multi-cloud - Azure - vm02" > /var/www/html/index.html
+echo "staticsite-lb-multi-cloud - Azure - instance02" > /var/www/html/index.html
 CUSTOM_DATA
     }
     os_profile_linux_config {
@@ -215,7 +215,7 @@ resource "azurerm_virtual_machine" "vm03" {
 #!/bin/bash
 sudo apt update
 sudo apt install apache2 -y
-echo "staticsite-lb-multi-cloud - Azure - vm03" > /var/www/html/index.html
+echo "staticsite-lb-multi-cloud - Azure - instance03" > /var/www/html/index.html
 CUSTOM_DATA
     }
     os_profile_linux_config {
@@ -252,7 +252,7 @@ resource "azurerm_virtual_machine" "vm04" {
 #!/bin/bash
 sudo apt update
 sudo apt install apache2 -y
-echo "staticsite-lb-multi-cloud - Azure - vm04" > /var/www/html/index.html
+echo "staticsite-lb-multi-cloud - Azure - instance04" > /var/www/html/index.html
 CUSTOM_DATA
     }
     os_profile_linux_config {
@@ -265,7 +265,7 @@ resource "azurerm_public_ip" "lb" {
     location            = azurerm_resource_group.rg.location
     resource_group_name = azurerm_resource_group.rg.name
     allocation_method   = "Static"
-    domain_name_label   = "staticsite-lb-kledson"
+    domain_name_label   = "staticsite-lb-aws-kledson"
 }
 
 resource "azurerm_lb" "lb" {
@@ -291,6 +291,7 @@ resource "azurerm_lb_rule" "lb" {
     backend_port                   = 80
     frontend_ip_configuration_name = "lb"
     backend_address_pool_ids       = [azurerm_lb_backend_address_pool.lb.id]
+    load_distribution              = "SourceIPProtocol"
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "vm01" {
